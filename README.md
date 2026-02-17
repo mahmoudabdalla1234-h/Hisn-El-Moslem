@@ -1,57 +1,193 @@
+{
+  "name": "hisn-muslim-app",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  }
+}
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حصن المسلم</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Amiri&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; }
-.font-amiri { font-family: 'Amiri', serif; }
-.active-tab { color: #15803d; border-top: 3px solid #15803d; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حصن المسلم</title>
 </head>
-<body class="pb-20">
+<body>
+  <div id="root"></div>
+    import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './styles/App.css';
 
-<header class="bg-green-700 text-white p-5 text-center shadow-md">
-    <h1 class="text-2xl font-bold font-amiri">حصن المسلم</h1>
-</header>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+import React from 'react';
+import AzkarList from './components/AzkarList';
+import Sebha from './components/Sebha';
+import Tasks from './components/Tasks';
 
-<div id="app" class="max-w-md mx-auto p-4">
-    <!-- المحتوى يتغير بواسطة الجافاسكريبت -->
-</div>
+function App() {
+  return (
+    <div className="App">
+      <header>
+        <h1>تطبيق حصن المسلم</h1>
+      </header>
 
-<nav class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t flex justify-around p-2">
-    <button onclick="render('azkar')" class="flex flex-col items-center p-2"><span>🌙</span><small>الأذكار</small></button>
-    <button onclick="render('sebha')" class="flex flex-col items-center p-2"><span>📿</span><small>السبحة</small></button>
-    <button onclick="render('quran')" class="flex flex-col items-center p-2"><span>📖</span><small>المصحف</small></button>
-</nav>
+      <section>
+        <h2>الأذكار اليومية</h2>
+        <AzkarList />
+      </section>
 
-<script>
-    let counter = 0;
-    function render(page) {
-        const container = document.getElementById('app');
-        if(page === 'azkar') {
-            container.innerHTML = `
-                <div class="bg-white p-4 rounded-xl shadow mb-4 border-r-4 border-green-600">
-                    <p class="font-amiri text-xl leading-relaxed">أَصْبَحْنَا وَأَصْبَحَ المُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ</p>
-                </div>
-                <div class="bg-white p-4 rounded-xl shadow border-r-4 border-green-600">
-                    <p class="font-amiri text-xl leading-relaxed">اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ</p>
-                </div>`;
-        } else if(page === 'sebha') {
-            container.innerHTML = `
-                <div class="text-center py-10">
-                    <div onclick="counter++; render('sebha')" class="w-40 h-40 bg-green-600 text-white rounded-full mx-auto flex items-center justify-center text-5xl shadow-xl active:scale-90 transition-transform cursor-pointer">${counter}</div>
-                    <button onclick="counter=0; render('sebha')" class="mt-5 text-gray-500 underline">تصفير العداد</button>
-                </div>`;
-        } else {
-            container.innerHTML = `<div class="text-center p-10 bg-white rounded-xl shadow"><p>قريباً: المصحف كاملاً للقراءة والاستماع</p></div>`;
-        }
-    }
-    window.onload = () => render('azkar');
-</script>
+      <section>
+        <h2>السبحة</h2>
+        <Sebha />
+      </section>
+
+      <section>
+        <h2>مهامك اليومية</h2>
+        <Tasks />
+      </section>
+
+      <section>
+        <h2>المصحف (صور)</h2>
+        <p>ضع صور صفحات المصحف داخل مجلد <strong>images/</strong></p>
+      </section>
+    </div>
+  );
+}
+
+export default App;
+import React from 'react';
+
+const azkar = [
+  { title: 'أذكار الصباح', text: 'سبحان الله، الحمد لله، الله أكبر ...' },
+  { title: 'أذكار المساء', text: 'سبحان الله، الحمد لله، الله أكبر ...' },
+  { title: 'أذكار بعد الصلاة', text: 'اللهم أنت السلام ...' }
+];
+
+function AzkarList() {
+  return (
+    <div className="azkar-list">
+      {azkar.map((item, idx) => (
+        <div key={idx} className="azkar-item">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AzkarList;
+import React, { useState } from 'react';
+
+function Sebha() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div className="sebha">
+      <h3>العدد: {count}</h3>
+      <button onClick={() => setCount(count + 1)}>اضغط للتسبيح</button>
+      <button onClick={() => setCount(0)}>إعادة التعيين</button>
+    </div>
+  );
+}
+
+export default Sebha;
+import React, { useState } from 'react';
+
+function Tasks() {
+  const [tasks, setTasks] = useState([
+    { text: 'صلاة الفجر', done: false },
+    { text: 'صلاة الظهر', done: false },
+    { text: 'صلاة العصر', done: false },
+    { text: 'صلاة المغرب', done: false },
+    { text: 'صلاة العشاء', done: false },
+  ]);
+
+  const toggleTask = (index) => {
+    const newTasks = [...tasks];
+    newTasks[index].done = !newTasks[index].done;
+    setTasks(newTasks);
+  };
+
+  return (
+    <div className="tasks">
+      {tasks.map((task, idx) => (
+        <div key={idx}>
+          <input
+            type="checkbox"
+            checked={task.done}
+            onChange={() => toggleTask(idx)}
+          />
+          <span className={task.done ? 'done' : ''}>{task.text}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default Tasks;
+body {
+  font-family: "Arial", sans-serif;
+  background: #f8f8f8;
+  color: #333;
+  direction: rtl;
+}
+
+.App {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.azkar-item, .sebha, .tasks {
+  margin: 15px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fdfdfd;
+}
+
+button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  background: #3498db;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2980b9;
+}
+
+.done {
+  text-decoration: line-through;
+  color: #888;
+}
+
 </body>
 </html>
